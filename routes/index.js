@@ -7,25 +7,28 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    res.render('main');
+});
+
+router.get('/register', function(req, res, next) {
     res.render('registration');
 });
 
 router.get('/offerings', function(req, res, next) {
-    //var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
-    var token = new Cookies(req,res).get('token');
-    var decoded = jwt.verify(token, 'hackTheQueen');
+    try {
+        var token = new Cookies(req,res).get('token');
+        var decoded = jwt.verify(token, 'hackTheQueen');
     
-    jwt.verify(token, 'hackTheQueen', function(err, decoded) {
-        if(err) {
-            res.redirect('login');
-        } else {
-            try {
+        jwt.verify(token, 'hackTheQueen', function(err, decoded) {
+            if(err) {
+                res.redirect('login');
+            } else {
                 res.render('offerings');
-            } catch(err) {
-                res.send("Shouldn't get here.");
             }
-        }
-    });
+        });
+    } catch(err) {
+        res.redirect('login');
+    }
 });
 
 router.get('/login', function(req, res, next) {
@@ -64,10 +67,70 @@ router.post('/addSupplier', function(req, res) {
     });
 });
 
+router.get('/listAllOfferings', function(req,res) {
+    // Set our internal DB variable
+    var db = monk('localhost:27017/noFoodLeftBehind');
+
+    // Set our collection
+    var collection = db.get('suppliers');
+    
+    collection.find({}, function (err, user) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(user);
+        }
+    });
+});
+
+router.get('/userListOfferings', function(req,res) {
+    // Set our internal DB variable
+    var db = monk('localhost:27017/noFoodLeftBehind');
+
+    // Set our collection
+    var collection = db.get('suppliers');
+
+    try {
+        var token = new Cookies(req,res).get('token');
+        var decoded = jwt.verify(token, 'hackTheQueen');
+    
+        jwt.verify(token, 'hackTheQueen', function(err, decoded) {
+            if(err) {
+                res.redirect('login');
+            } else {
+                collection.find({
+                    "locationname" : decoded.locationname
+                }, function (err, user) {
+                    if (err) {
+                        res.send(err);
+                    }
+
+                    if(!user) {
+                        res.send("{}");
+                    } else {
+                        res.send(user.offerings);
+                    }
+                });
+            }
+        });
+    } catch(err) {
+        res.redirect('login');
+    }   
+});
+
+router.get('/listOfferings', function(req,res) {
+    res.send({
+        "food_name" : ['lettuce','tomato'],
+        "quantity" : ['1','2'],
+        "expire_date" : ['1232-12-12','1232-12-12'],
+        "perishable" : ['true','true'],
+        "comments" : ['','']
+    });
+});
+
 router.post('/userCheck', function(req, res) {
     // Set our internal DB variable
     var db = monk('localhost:27017/noFoodLeftBehind');
-    //var db = req.db;
 
     // Set our collection
     var collection = db.get('suppliers');
@@ -116,7 +179,7 @@ router.post('/addOffering', function(req, res) {
     var foods = [];
     for(var i=0; i<req.body.food_name.length; i++) {
         foods.push({
-            "food" : req.body.food_name[i],
+            "food_name" : req.body.food_name[i],
             "quantity" : req.body.quantity[i],
             "expire_date" : req.body.expire_date[i],
             "perishable" : req.body.perishable[i],
@@ -129,8 +192,20 @@ router.post('/addOffering', function(req, res) {
     
     jwt.verify(token, 'hackTheQueen', function(err, decoded) {
         collection.update(
-            {_id: decoded._id},
-            {offerings: foods},
+            {locationname : decoded.locationname},
+            {
+                locationname: decoded.locationname,
+                organization: decoded.organization,
+                password: decoded.password,
+                email: decoded.email,
+                address: decoded.address,
+                address2: decoded.addess2,
+                city: decoded.city,
+                province: decoded.province,
+                country: decoded.country,
+                email: decoded.postal,
+                offerings: foods
+            },
             {upsert: false}, 
             function (err, doc) {
                 if (err) {
@@ -138,7 +213,7 @@ router.post('/addOffering', function(req, res) {
                     res.send("There was a problem adding the information to the database.");
                 } else {
                     // And forward to success page
-                    res.send("success");
+                    res.send(decoded);
                 }
         });
     });
