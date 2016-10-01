@@ -123,6 +123,7 @@
 		
 		
 			<script type="text/javascript">
+				// Polyfill
 				if (!Object.keys) {
 				    Object.keys = function (obj) {
 				        var arr = [],
@@ -135,6 +136,59 @@
 				        return arr;
 				    };
 				}
+				
+				
+				
+				function generateItemBlock(item) {
+					if (item.perishable) {
+						var perishable = 'Yes';
+					} else {
+						var perishable = 'No';
+					}
+					
+					// Item template
+					var itemTemplate = 	'<li class="item">'
+						+ '<div class="form-group row">'
+							+ '<div class="col-sm-6">'
+								+ '<label for="food_name">Type of Food:</label>'
+								+ '<p>' + item.food_name + '</p>'
+							+ '</div>'
+							+ '<div class="col-sm-6">'
+								+ '<label for="quantity">Quantity Available:</label>'
+								+ '<p>' + item.quantity + '</p>'
+							+ '</div>'
+						+ '</div>'
+		
+						+ '<div class="form-group row">'
+							+ '<div class="col-sm-6">'
+								+ '<label for="expire_date">Throw Away Date:</label><br/>'
+								+ '<p>' + item.expiry_date + '</p>' +
+							+ '</div>'
+							+ '<div class="col-sm-6">'
+								+ '<label for="perishable">Is this food perishable?</label>'
+								+ '<p>' + perishable + '</p>' +
+							+ '</div>'
+						+ '</div>'
+		            
+						+ '<div class="form-group row">'
+							+ '<div class="col-sm-12">'
+								+ '<label for="comments">Comments:</label>'
+								+ '<p>' + item.comments + '</p>' +
+							+ '</div>'
+						+ '</div>'
+					+ '</li>';
+					
+					return itemTemplate;
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				$(document).ready(function() {
 					
@@ -165,6 +219,8 @@
 									item[objectProperties[pI]] = data[objectProperties[pI]][i];
 								}
 								
+								$('#item_list').append(generateItemBlock(item));
+								
 								items.push(item);
 							}
 							
@@ -172,6 +228,16 @@
 						}
 					});
 				});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			</script>
 		
 		
@@ -180,43 +246,13 @@
 			<div class="page-content">
 				
 				<h1>Items Available</h1>
+				
+				
+				
+				
+				
                 <ul id='item_list' style="list-style:none;">
-                    
-                    <li id="0" class="item">
-							<div class="form-group row">
-								<div class="col-sm-6">
-									<label for="food_name">Type of Food:</label>
-								</div>
-								<div class="col-sm-6">
-									<label for="quantity">Quantity Available:</label>
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<div class="col-sm-6">
-									<label for="expire_date">Throw Away Date:</label><br/>
-								</div>
-								<div class="col-sm-6">
-									<label for="perishable">Is this food perishable?</label>
-								</div>
-							</div>
-                        
-                            <div class="form-group row">
-								<div class="col-sm-6">
-									<label for="expire_date">City:</label><br/>
-								</div>
-								<div class="col-sm-6">
-									<label for="perishable">Street address:</label>
-								</div>
-							</div>
-                        
-							<div class="form-group row">
-								<div class="col-sm-12">
-									<label for="comments">Comments:</label>
-									
-								</div>
-							</div>
-						</li>
+	                
                 </ul>
                 
             </div>
