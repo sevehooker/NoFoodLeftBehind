@@ -213,7 +213,7 @@ router.post('/addOffering', function(req, res) {
                     res.send("There was a problem adding the information to the database.");
                 } else {
                     // And forward to success page
-                    res.send(decoded);
+                    res.redirect('/');
                 }
         });
     });
