@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/noFoodLeftBehind');
-
+var jwt = require('jsonwebtoken');
 var routes = require('./routes/index');
 
 var app = express();
@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 80);
-app.set('secret', 'hackTheQueen');
+app.set('supersecret', 'hackTheQueen');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
