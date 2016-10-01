@@ -1,6 +1,7 @@
 var express = require('express');
 var monk = require('monk');
 var jwt = require('jsonwebtoken');
+var Cookies = require('cookies');
 //var app = require('./app');
 var router = express.Router();
 
@@ -10,7 +11,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/offerings', function(req, res, next) {
-    res.render('offerings');
+    //var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    var token = new Cookies(req,res).get('token');
+    var decoded = jwt.verify(token, 'hackTheQueen');
+    
+    jwt.verify(token, 'hackTheQueen', function(err, decoded) {
+        if(err) {
+            res.redirect('login');
+        } else {
+            try {
+                res.render('offerings');
+            } catch(err) {
+                res.send("Shouldn't get here.");
+            }
+        }
+    });
 });
 
 router.get('/login', function(req, res, next) {
@@ -44,7 +59,7 @@ router.post('/addSupplier', function(req, res) {
             res.send("There was a problem adding the information to the database.");
         } else {
             // And forward to success page
-            res.render('offerings');
+            res.redirect('offerings');
         }
     });
 });
@@ -80,12 +95,12 @@ router.post('/userCheck', function(req, res) {
 				});
 
 				// return the information including token as JSON
-				res.json({
-				  success: true,
-				  message: 'Enjoy your token!',
-				  token: token
-				});
-			}
+				new Cookies(req,res).set('token',token,{
+                  httpOnly: true
+                  //secure: true
+                });
+                res.redirect('offerings');
+            }
 		}
     });
 });
@@ -109,17 +124,23 @@ router.post('/addOffering', function(req, res) {
         });
     }
 
-    collection.insert({
-        "offerings": foods
-    }, function (err, doc) {
-        if (err) {
-            // If it failed, return error
-            res.send("There was a problem adding the information to the database.");
-        }
-        else {
-            // And forward to success page
-            res.send("success");
-        }
+    var token = new Cookies(req,res).get('token');
+    var decoded = jwt.verify(token, 'hackTheQueen');
+    
+    jwt.verify(token, 'hackTheQueen', function(err, decoded) {
+        collection.update(
+            {_id: decoded._id},
+            {offerings: foods},
+            {upsert: false}, 
+            function (err, doc) {
+                if (err) {
+                    // If it failed, return error
+                    res.send("There was a problem adding the information to the database.");
+                } else {
+                    // And forward to success page
+                    res.send("success");
+                }
+        });
     });
 });
 
