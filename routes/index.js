@@ -10,6 +10,10 @@ router.get('/offerings', function(req, res, next) {
     res.render('offerings');
 });
 
+router.get('/login', function(req, res, next) {
+    res.render('login');
+});
+
 router.post('/addSupplier', function(req, res) {
     // Set our internal DB variable
     var monk = require('monk');
@@ -39,7 +43,7 @@ router.post('/addSupplier', function(req, res) {
         }
         else {
             // And forward to success page
-            res.send("Organisation Added.");
+            res.render('offerings');
         }
     });
 });
