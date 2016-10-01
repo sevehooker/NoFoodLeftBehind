@@ -38,6 +38,7 @@
             .item {
                 background-color: #d9d9d9;
                 padding: 25px;
+                margin: 2em 0;
             }
             ul.header-styles {
                 list-style-type: none;
@@ -139,7 +140,7 @@
 				
 				
 				
-				function generateItemBlock(item) {
+				function generateItemBlock(item, organization) {
 					if (item.perishable) {
 						var perishable = 'Yes';
 					} else {
@@ -169,6 +170,17 @@
 								+ '<p>' + perishable + '</p>'
 							+ '</div>'
 						+ '</div>'
+						
+						+ '<div class="form-group row">'
+							+ '<div class="col-sm-6">'
+								+ '<label for="expire_date">City:</label><br/>'
+								+ '<p>' + organization.city + '</p>'
+							+ '</div>'
+							+ '<div class="col-sm-6">'
+								+ '<label for="perishable">Street address:</label>'
+								+ '<p>' + organization.address + '</p>'
+							+ '</div>'
+						+ '</div>'
 		            
 						+ '<div class="form-group row">'
 							+ '<div class="col-sm-12">'
@@ -181,67 +193,52 @@
 					return itemTemplate;
 				}
 				
+				function addItems(organization) {
+					var data = organization.offerings;
+					
+					var objectProperties = [];
+					
+					for (var property in data) {
+						objectProperties.push(property);
+					}
 				
-				
-				
-				
-				
-				
-				
-				
+					var items = [];	
+					
+					for (var prop in data) {
+						numOfItems = data[prop].length;
+						break;
+					}
+					
+					// Loops through submitted items
+					for (i = 0; i < numOfItems; ++i) {
+						
+						var item = {};
+						
+						// Loops through properties
+						for (pI = 0; pI < Object.keys(data).length; ++pI) {
+							item[objectProperties[pI]] = data[objectProperties[pI]][i];
+						}
+						
+						$('#item_list').append(generateItemBlock(item, organization));
+						
+						items.push(item);
+					}
+					
+					console.log(items);
+				}		
 				
 				$(document).ready(function() {
-					
 					$.ajax({
 						url: '/listOfferings',
 						dataType: 'json',
 						success: function(data, status, jqXHR) {
-							var objectProperties = [];
-					
-							for (var property in data) {
-								objectProperties.push(property);
+							for (var i = 0; i < data.length; ++i) {
+								addItems(data[i]);
 							}
-						
-							var items = [];	
-							
-							for (var prop in data) {
-								numOfItems = data[prop].length;
-								break;
-							}
-							
-							// Loops through submitted items
-							for (i = 0; i < numOfItems; ++i) {
-								
-								var item = {};
-								
-								// Loops through properties
-								for (pI = 0; pI < Object.keys(data).length; ++pI) {
-									item[objectProperties[pI]] = data[objectProperties[pI]][i];
-								}
-								
-								$('#item_list').append(generateItemBlock(item));
-								
-								items.push(item);
-							}
-							
-							console.log(items);
 						}
 					});
 				});
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</script>
-		
-		
-		
 		
 			<div class="page-content">
 				
