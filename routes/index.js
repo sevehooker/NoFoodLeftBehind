@@ -16,11 +16,14 @@ router.get('/offerings', function(req, res, next) {
     var decoded = jwt.verify(token, 'hackTheQueen');
     
     jwt.verify(token, 'hackTheQueen', function(err, decoded) {
-        try {
-            res.send(decoded);
-            //res.render('offerings');
-        } catch(err) {
-            res.send("Shouldn't get here.");
+        if(err) {
+            res.redirect('login');
+        } else {
+            try {
+                res.render('offerings');
+            } catch(err) {
+                res.send("Shouldn't get here.");
+            }
         }
     });
 });
@@ -56,7 +59,7 @@ router.post('/addSupplier', function(req, res) {
             res.send("There was a problem adding the information to the database.");
         } else {
             // And forward to success page
-            res.render('offerings');
+            res.redirect('offerings');
         }
     });
 });
@@ -121,17 +124,23 @@ router.post('/addOffering', function(req, res) {
         });
     }
 
-    collection.insert({
-        "offerings": foods
-    }, function (err, doc) {
-        if (err) {
-            // If it failed, return error
-            res.send("There was a problem adding the information to the database.");
-        }
-        else {
-            // And forward to success page
-            res.send("success");
-        }
+    var token = new Cookies(req,res).get('token');
+    var decoded = jwt.verify(token, 'hackTheQueen');
+    
+    jwt.verify(token, 'hackTheQueen', function(err, decoded) {
+        collection.update(
+            {_id: decoded._id},
+            {offerings: foods},
+            {upsert: false}, 
+            function (err, doc) {
+                if (err) {
+                    // If it failed, return error
+                    res.send("There was a problem adding the information to the database.");
+                } else {
+                    // And forward to success page
+                    res.send("success");
+                }
+        });
     });
 });
 
