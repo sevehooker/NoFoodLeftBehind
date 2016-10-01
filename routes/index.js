@@ -3,11 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('registration');
+    res.render('registration');
 });
 
 router.get('/offerings', function(req, res, next) {
-  res.render('offerings');
+    res.render('offerings');
 });
 
 router.post('/addOrganizer', function(req, res) {
@@ -17,7 +17,7 @@ router.post('/addOrganizer', function(req, res) {
     //var db = req.db;
 
     // Set our collection
-    var collection = db.get('organisations');
+    var collection = db.get('suppliers');
 
     // Submit to the DB
     collection.insert({
@@ -30,7 +30,8 @@ router.post('/addOrganizer', function(req, res) {
 		"city" : req.body.address_city,
 		"province" : req.body.address_province,
 		"country" : req.body.address_country,
-		"postal" : req.body.postalcode
+		"postal" : req.body.postalcode,
+        "offerings" : {}
 	}, function (err, doc) {
         if (err) {
             // If it failed, return error
@@ -50,7 +51,7 @@ router.post('/userCheck', function(req, res) {
     //var db = req.db;
 
     // Set our collection
-    var collection = db.get('organsisations');
+    var collection = db.get('suppliers');
 
     collection.findOne({
         "username" : req.body.username,
@@ -88,10 +89,9 @@ router.post('/addOffering', function(req, res) {
 
     var monk = require('monk');
     var db = monk('localhost:27017/noFoodLeftBehind');
-    //var db = req.db;
     
     // Set our collection
-    var collection = db.get('organizations');
+    var collection = db.get('suppliers');
 
     // Submit to the DB
     var foods = [];
@@ -105,7 +105,9 @@ router.post('/addOffering', function(req, res) {
         });
     }
 
-    collection.insert(foods, function (err, doc) {
+    collection.insert({
+        "offerings": foods
+    }, function (err, doc) {
         if (err) {
             // If it failed, return error
             res.send("There was a problem adding the information to the database.");
