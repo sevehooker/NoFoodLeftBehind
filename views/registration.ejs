@@ -3,22 +3,23 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+
 		<title>NoFoodLeftBehind</title>
-		
-		<!-- Latest compiled and minified CSS -->
+
+		<div style="text-align: center;">
+			<img src = '../logo.png' alt='NoFoodLeftBehind' width='40%;' height='40%;'>
+		</div>
+
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">		
-		<!-- Latest compiled and minified JavaScript -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		
-		
+
 		<style type="text/css">
 			html, body {
 				background-color: #f2f2f2;
 			}
-			
+
 			.page-content {
 				width: 80%;
 				max-width: 1024px;
@@ -29,11 +30,11 @@
 	</head>
 	<body>
 		<div class="page_container">
-		
+
 			<div class="page-content">
-				
+
 				<h1>Register as a Supplier</h1>
-				
+
 				<form id="form-registration" method="post" action="/addSupplier">
 					<div class="form-group row">
 						<div class="col-sm-6">
@@ -42,11 +43,11 @@
 						</div>
 						<div class="col-sm-6">
 							<label for="organization_name">Organization Name:</label>
-							<input type="text" id="organization_name" name="organization_name" class="form-control">				
+							<input type="text" id="organization_name" name="organization_name" class="form-control">
 						</div>
 					</div>
-					
-					
+
+
 					<div class="form-group row">
 						<div class="col-sm-6">
 							<label for="password">Password:</label>
@@ -57,17 +58,17 @@
 							<input type="email" id="email" name="email" class="form-control">
 						</div>
 					</div>
-					
+
 					<div class="form-group">
 						<label for="address_line1">Street Address:</label>
 						<input type="text" id="address_line1" name="address_line1" class="form-control">
 					</div>
-					
+
 					<div class="form-group">
 						<label for="address_line2">Address Line 2:</label>
 						<input type="text" id="address_line2" name="address_line2" class="form-control">
 					</div>
-					
+
 					<div class="form-group row">
 						<div class="col-sm-6">
 							<label for="address_city">City:</label>
@@ -78,7 +79,7 @@
 							<input type="text" id="address_province" name="address_province" class="form-control">
 						</div>
 					</div>
-					
+
 					<div class="form-group row">
 						<div class="col-sm-6">
 							<label for="address_country">Country:</label>
@@ -89,7 +90,7 @@
 							<input type="text" id="address_postalcode" name="address_postalcode" class="form-control">
 						</div>
 					</div>
-					
+
 					<button type="submit" class="btn btn-primary">Register</button>
 				</form>
 			</div>
