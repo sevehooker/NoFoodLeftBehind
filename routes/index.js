@@ -1,4 +1,7 @@
 var express = require('express');
+var monk = require('monk');
+var jwt = require('jsonwebtoken');
+//var app = require('./app');
 var router = express.Router();
 
 /* GET home page. */
@@ -16,7 +19,6 @@ router.get('/login', function(req, res, next) {
 
 router.post('/addSupplier', function(req, res) {
     // Set our internal DB variable
-    var monk = require('monk');
     var db = monk('localhost:27017/noFoodLeftBehind');
     //var db = req.db;
 
@@ -25,7 +27,7 @@ router.post('/addSupplier', function(req, res) {
 
     // Submit to the DB
     collection.insert({
-        "username" : req.body.username,
+        "locationname" : req.body.location_name,
         "organization" : req.body.organization_name,
 		"password" : req.body.password,
 		"email" : req.body.email,
@@ -40,8 +42,7 @@ router.post('/addSupplier', function(req, res) {
         if (err) {
             // If it failed, return error
             res.send("There was a problem adding the information to the database.");
-        }
-        else {
+        } else {
             // And forward to success page
             res.render('offerings');
         }
@@ -50,7 +51,6 @@ router.post('/addSupplier', function(req, res) {
 
 router.post('/userCheck', function(req, res) {
     // Set our internal DB variable
-    var monk = require('monk');
     var db = monk('localhost:27017/noFoodLeftBehind');
     //var db = req.db;
 
@@ -58,14 +58,16 @@ router.post('/userCheck', function(req, res) {
     var collection = db.get('suppliers');
 
     collection.findOne({
-        "username" : req.body.username,
+        "locationname" : req.body.locationname,
 		"password" : req.body.password
 	}, function (err, user) {
-        if (err) throw err;
+        if (err) {
+            res.send(err);
+        }
 
         if(!user) {
             // And forward to success page
-            res.send("Organisation Added.");
+            res.send("User not found");
         } else if (user) {
             // check if password matches
 		    if (user.password != req.body.password) {
@@ -73,8 +75,8 @@ router.post('/userCheck', function(req, res) {
       		} else { 
 				// if user is found and password is right
 				// create a token
-				var token = jwt.sign(user, app.get('superSecret'), {
-				  expiresInMinutes: 1440 // expires in 24 hours
+				var token = jwt.sign(user, 'hackTheQueen', {
+				  expiresIn: 1440 // expires in 24 hours
 				});
 
 				// return the information including token as JSON
@@ -90,8 +92,6 @@ router.post('/userCheck', function(req, res) {
 
 router.post('/addOffering', function(req, res) {
     // Set our internal DB variable
-
-    var monk = require('monk');
     var db = monk('localhost:27017/noFoodLeftBehind');
     
     // Set our collection
