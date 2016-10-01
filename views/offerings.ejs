@@ -22,7 +22,11 @@
 		<link rel="stylesheet" href="http://pewdiepie.ca/stylesheets/datepicker.css">
 
 		<script>
-		$('.datepicker').datepicker({clickInput:true});
+		$(document).ready(function() {
+			$('.datepicker').datepicker({clickInput:true});
+		});
+		
+		
 
 		function generateFoodItem(index) {
 			var html = '<div class="form-group row">'
