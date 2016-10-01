@@ -19,7 +19,9 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" href="https://pewdiepie.ca/stylesheets/datepicker.css">
+	<style>
+		<link rel="stylesheet" href="/stylesheets/datepicker.css">
+	</style>
 
 		<script>
 		$(document).ready(function() {
@@ -34,8 +36,7 @@
 							+ '<label for="food_name">Type of Food:</label>'
 							+ '<input type="text" id="food_name" name="food_name['+index+']" class="form-control">'
 						+ '</div>'
-						+ '<div class="col-sm-6">'
-							+ '<label for="quantity">Quantity:</label>'
+						+ '<div class="col-sm-6">' + '<label for="quantity">Quantity:</label>'
 							+ '<input type="text" id="quantity" name="quantity['+index+']" class="form-control">'
 						+ '</div>'
 					+ '</div>'
@@ -133,5 +134,6 @@
 				</form>
 			</div>
 		</div>
+
 	</body>
 </html>
