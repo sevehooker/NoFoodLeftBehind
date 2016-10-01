@@ -121,6 +121,62 @@
 	<body>
 		<div class="page_container">
 		
+		
+			<script type="text/javascript">
+				if (!Object.keys) {
+				    Object.keys = function (obj) {
+				        var arr = [],
+				            key;
+				        for (key in obj) {
+				            if (obj.hasOwnProperty(key)) {
+				                arr.push(key);
+				            }
+				        }
+				        return arr;
+				    };
+				}
+				
+				$(document).ready(function() {
+					
+					$.ajax({
+						url: '/listOfferings',
+						dataType: 'json',
+						success: function(data, status, jqXHR) {
+							var objectProperties = [];
+					
+							for (var property in data) {
+								objectProperties.push(property);
+							}
+						
+							var items = [];	
+							
+							for (var prop in data) {
+								numOfItems = data[prop].length;
+								break;
+							}
+							
+							// Loops through submitted items
+							for (i = 0; i < numOfItems; ++i) {
+								
+								var item = {};
+								
+								// Loops through properties
+								for (pI = 0; pI < Object.keys(data).length; ++pI) {
+									item[objectProperties[pI]] = data[objectProperties[pI]][i];
+								}
+								
+								items.push(item);
+							}
+							
+							console.log(items);
+						}
+					});
+				});
+			</script>
+		
+		
+		
+		
 			<div class="page-content">
 				
 				<h1>Items Available</h1>
