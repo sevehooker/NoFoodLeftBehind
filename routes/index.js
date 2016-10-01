@@ -10,7 +10,7 @@ router.get('/offerings', function(req, res, next) {
     res.render('offerings');
 });
 
-router.post('/addOrganizer', function(req, res) {
+router.post('/addSupplier', function(req, res) {
     // Set our internal DB variable
     var monk = require('monk');
     var db = monk('localhost:27017/noFoodLeftBehind');
