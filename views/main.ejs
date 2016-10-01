@@ -194,6 +194,11 @@
 				}
 				
 				function addItems(organization) {
+					
+					if ($.isEmptyObject(organization.offerings)) {
+						return;
+					}
+					
 					var data = organization.offerings;
 					
 					var objectProperties = [];
