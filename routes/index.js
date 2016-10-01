@@ -10,7 +10,17 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/offerings', function(req, res, next) {
-    res.render('offerings');
+    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    var decoded = jwt.verify(token, 'hackTheQueen');
+    
+    jwt.verify(token, 'hackTheQueen', function(err, decoded) {
+        try {
+            var decoded = jwt.verify(token, 'wrong-secret');
+            res.render('offerings');
+        } catch(err) {
+            res.send("Shouldn't get here.");
+        }
+    });
 });
 
 router.get('/login', function(req, res, next) {
