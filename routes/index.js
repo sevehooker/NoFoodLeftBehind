@@ -1,6 +1,7 @@
 var express = require('express');
 var monk = require('monk');
 var jwt = require('jsonwebtoken');
+var Cookies = require('cookies');
 //var app = require('./app');
 var router = express.Router();
 
@@ -10,13 +11,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/offerings', function(req, res, next) {
-    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    //var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    var token = new Cookies(req,res).get('token');
     var decoded = jwt.verify(token, 'hackTheQueen');
     
     jwt.verify(token, 'hackTheQueen', function(err, decoded) {
         try {
-            var decoded = jwt.verify(token, 'wrong-secret');
-            res.render('offerings');
+            res.send(decoded);
+            //res.render('offerings');
         } catch(err) {
             res.send("Shouldn't get here.");
         }
@@ -90,12 +92,12 @@ router.post('/userCheck', function(req, res) {
 				});
 
 				// return the information including token as JSON
-				res.json({
-				  success: true,
-				  message: 'Enjoy your token!',
-				  token: token
-				});
-			}
+				new Cookies(req,res).set('token',token,{
+                  httpOnly: true
+                  //secure: true
+                });
+                res.redirect('offerings');
+            }
 		}
     });
 });
