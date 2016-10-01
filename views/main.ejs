@@ -7,7 +7,7 @@
 		<title>NoFoodLeftBehind</title>
         
 		<div style="text-align: center;">
-			<img src = 'http://pewdiepie.ca/images/logo.png' alt='NoFoodLeftBehind' width='40%;' height='40%;'>
+			<img src = '/images/logo.png' alt='NoFoodLeftBehind' width='40%;' height='40%;'>
 		</div>
         
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
@@ -19,7 +19,7 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css">
 		<link rel="stylesheet" href="/stylesheets/datepicker.css">
 		
 		
@@ -140,7 +140,7 @@
 				
 				
 				
-				function generateItemBlock(item, organization) {
+				function generateItemBlock(item) {
 					if (item.perishable) {
 						var perishable = 'Yes';
 					} else {
@@ -170,17 +170,6 @@
 								+ '<p>' + perishable + '</p>'
 							+ '</div>'
 						+ '</div>'
-						
-						+ '<div class="form-group row">'
-							+ '<div class="col-sm-6">'
-								+ '<label for="expire_date">City:</label><br/>'
-								+ '<p>' + organization.city + '</p>'
-							+ '</div>'
-							+ '<div class="col-sm-6">'
-								+ '<label for="perishable">Street address:</label>'
-								+ '<p>' + organization.address + '</p>'
-							+ '</div>'
-						+ '</div>'
 		            
 						+ '<div class="form-group row">'
 							+ '<div class="col-sm-12">'
@@ -193,57 +182,67 @@
 					return itemTemplate;
 				}
 				
-				function addItems(organization) {
-					
-					if ($.isEmptyObject(organization.offerings)) {
-						return;
-					}
-					
-					var data = organization.offerings;
-					
-					var objectProperties = [];
-					
-					for (var property in data) {
-						objectProperties.push(property);
-					}
 				
-					var items = [];	
-					
-					for (var prop in data) {
-						numOfItems = data[prop].length;
-						break;
-					}
-					
-					// Loops through submitted items
-					for (i = 0; i < numOfItems; ++i) {
-						
-						var item = {};
-						
-						// Loops through properties
-						for (pI = 0; pI < Object.keys(data).length; ++pI) {
-							item[objectProperties[pI]] = data[objectProperties[pI]][i];
-						}
-						
-						$('#item_list').append(generateItemBlock(item, organization));
-						
-						items.push(item);
-					}
-					
-					console.log(items);
-				}		
+				
+				
+				
+				
+				
+				
+				
 				
 				$(document).ready(function() {
+					
 					$.ajax({
-						url: '/listAllOfferings',
+						url: '/listOfferings',
 						dataType: 'json',
 						success: function(data, status, jqXHR) {
-							for (var i = 0; i < data.length; ++i) {
-								addItems(data[i]);
+							var objectProperties = [];
+					
+							for (var property in data) {
+								objectProperties.push(property);
 							}
+						
+							var items = [];	
+							
+							for (var prop in data) {
+								numOfItems = data[prop].length;
+								break;
+							}
+							
+							// Loops through submitted items
+							for (i = 0; i < numOfItems; ++i) {
+								
+								var item = {};
+								
+								// Loops through properties
+								for (pI = 0; pI < Object.keys(data).length; ++pI) {
+									item[objectProperties[pI]] = data[objectProperties[pI]][i];
+								}
+								
+								$('#item_list').append(generateItemBlock(item));
+								
+								items.push(item);
+							}
+							
+							console.log(items);
 						}
 					});
 				});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			</script>
+		
+		
+		
 		
 			<div class="page-content">
 				
