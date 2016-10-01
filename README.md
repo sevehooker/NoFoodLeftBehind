@@ -1,1 +1,1 @@
-![No Food Left Behind](https://raw.githubusercontent.com/sevehooker/NoFoodLeftBehind/master/logo.png)
+![No Food Left Behind](https://raw.githubusercontent.com/sevehooker/NoFoodLeftBehind/master/pubic/images/logo.png)
