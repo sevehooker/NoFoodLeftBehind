@@ -5,20 +5,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>NoFoodLeftBehind</title>
+
         <center><div style="width: 500px; height: 40px;">
             <center><img src = '../logo.png' alt = 'NoFoodLeftBehind' width='80%' height='80%'></center>
             </div></center>
         
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="./datepicker.css">
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 	<script>
+
+	$('.datepicker').datepicker({clickInput:true});
+
 	function generateFoodItem(index) {
 	  	var html = '<div class="form-group row">'
 					+ '<div class="col-sm-6">'
@@ -33,7 +39,7 @@
 				+ '<div class="form-group row">'
 					+ '<div class="col-sm-6">'
 						+ '<label for="expire_date">Throw Away Date:</label>'
-						+ '<input type="expire_date" id="expire_date" name="expire_date['+index+']" class="form-control">'
+						+ '<input class="datepicker" data-provide="datepicker" id="expire_date" name="expire_date['+index+']">'
 					+ '</div>'
 					+ '<div class="col-sm-6">'
 						+ '<label for="perishable">Is this food perishable?</label>'
@@ -99,7 +105,7 @@
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="expire_date">Throw Away Date:</label>
-									<input type="expire_date" id="expire_date" name="expire_date[0]" class="form-control">
+									<input class="datepicker" data-provide="datepicker" id="expire_date" name="expire_date[0]">
 								</div>
 								<div class="col-sm-6">
 									<label for="perishable">Is this food perishable?</label>
