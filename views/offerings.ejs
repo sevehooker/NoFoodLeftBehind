@@ -8,40 +8,45 @@
 
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   	<script>
-	var asdfalskdjfalkdfjhtml = '<div class="form-group row">'
+  	
+  	function generateFoodItem(index) {
+	  	var html = '<div class="form-group row">'
 					+ '<div class="col-sm-6">'
 						+ '<label for="food_name">Type of Food:</label>'
-						+ '<input type="text" id="food_name" name="food_name[]" class="form-control">'
+						+ '<input type="text" id="food_name" name="food_name['+index+']" class="form-control">'
 					+ '</div>'
 					+ '<div class="col-sm-6">'
 						+ '<label for="quantity">Quantity:</label>'
-						+ '<input type="text" id="quantity" name="quantity[]" class="form-control">'
+						+ '<input type="text" id="quantity" name="quantity['+index+']" class="form-control">'
 					+ '</div>'
 				+ '</div>'
 				+ '<div class="form-group row">'
 					+ '<div class="col-sm-6">'
 						+ '<label for="expire_date">Expiration Date:</label>'
-						+ '<input type="expire_date" id="expire_date" name="expire_date[]" class="form-control">'
+						+ '<input type="expire_date" id="expire_date" name="expire_date['+index+']" class="form-control">'
 					+ '</div>'
 					+ '<div class="col-sm-6">'
 						+ '<label for="perishable">Is this food perishable?</label>'
-						+ '<input type="checkbox" id="perishable" name="perishable[]" class="form-control">'
+						+ '<input type="checkbox" id="perishable" name="perishable['+index+']" class="form-control">'
 					+ '</div>'
 				+ '</div>'
 				+ '<div class="form-group row">'
 					+ '<div class="col-sm-12">'
 						+ '<label for="comments">Comments:</label>'
-						+ '<input type="text" id="comments" name="comments[]" class="form-control">'
+						+ '<input type="text" id="comments" name="comments['+index+']" class="form-control">'
 					+ '</div>'
 				+ '</div>';
+  	}
+  	
     var counter = 1; // There's already an item 0.
     function addFoodItem() {        
         var newFoodItem = document.createElement("li");
         newFoodItem.id = counter;
-        counter += 1;
-        newFoodItem.innerHTML = asdfalskdjfalkdfjhtml;
+        newFoodItem.innerHTML = generateFoodItem(counter);
 
         $('#food_list').append(newFoodItem);
+        
+	    counter += 1;
     }
     </script>
 
@@ -78,29 +83,29 @@
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="food_name">Type of Food:</label>
-									<input type="text" id="food_name" name="food_name[]" class="form-control">
+									<input type="text" id="food_name" name="food_name[0]" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="quantity">Quantity:</label>
-									<input type="text" id="quantity" name="quantity[]" class="form-control">
+									<input type="text" id="quantity" name="quantity[0]" class="form-control">
 								</div>
 							</div>
 								
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="expire_date">Expiration Date:</label>
-									<input type="expire_date" id="expire_date" name="expire_date[]" class="form-control">
+									<input type="expire_date" id="expire_date" name="expire_date[0]" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="perishable">Is this food perishable?</label>
-									<input type="checkbox" id="perishable" name="perishable[]" class="form-control">
+									<input type="checkbox" id="perishable" name="perishable[0]" class="form-control">
 								</div>
 							</div>
 								
 							<div class="form-group row">
 								<div class="col-sm-12">
 									<label for="comments">Comments:</label>
-									<textarea id="comments" name="comments[]" class="form-control"></textarea>
+									<textarea id="comments" name="comments[0]" class="form-control"></textarea>
 								</div>
 							</div>
 						</li>
